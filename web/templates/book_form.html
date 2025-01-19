@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% if book %}책 수정{% else %}</title>
+    </head>
+    <body>
+        <h1>{% if book %}책 수정{% else %}새 책 등록{% endif %}</h1>
+        <form method="POST">
+            <label>제목: <input type="text" name="title" value="{{ book.title if book else '' }}"></label><br>
+            <label>부제: <input type="text" name="subtitle" value="{{ book.subtitle if book else '' }}"></label><br>
+            <label>저자: <input type="text" name="author" value="{{ book.author if book else '' }}"></label><br>
+            <label>링크: <input type="text" name="link" value="{{ book.link if book else '' }}"></label><br>
+            <label>상태: 
+              <select name="status">
+                <option value="시작전" {% if book and book.status=='시작전' %}selected{% endif %}>시작전</option>
+                <option value="읽는중" {% if book and book.status=='읽는중' %}selected{% endif %}>읽는중</option>
+                <option value="완료" {% if book and book.status=='완료' %}selected{% endif %}>완료</option>
+                <option value="중단" {% if book and book.status=='중단' %}selected{% endif %}>중단</option>
+              </select>
+            </label><br>
+            <label>트리거: <input type="text" name="trigger" value="{{ book.trigger if book else '' }}"></label><br>
+            <label>별점: <input type="number" name="rating" min="0" max="5" value="{{ book.rating if book else '' }}"></label><br>
+            <label>메모: <br><textarea name="memo" rows="5" cols="40">{{ book.memo if book else '' }}</textarea></label><br>
+            <button type="submit">저장</button>
+        </form>
+    </body>
+
+</html>
