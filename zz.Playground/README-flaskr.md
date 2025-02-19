@@ -213,3 +213,38 @@ now can call from anywhere : `PS C:\> flask --app flaskr run`
 `\$ coverage run -m pytest`
 `\$ coverage report`
 `\$ coverage html` generates files `htmlcov`
+
+## [Deploy to Production](https://flask.palletsprojects.com/en/stable/tutorial/deploy/)
+
+### Build and Install
+
+```plain/text
+\$ pip install build
+\$ python -m build --wheel
+```
+
+`\$ pip install flaskr-1.0.0-py3-none-any.whl` - install own wheel package to venv
+
+`\$ flask --app flaskr init-db` - need to run init-db again to create the database in instance folder
+
+### Configure the Secret Key
+
+```plain/text
+\$ python -c "import secrets; print(secrets.token_hex())"
+8145c8d2a9bdfee450dfb6e3cdc2f65f6a119d7b85a64575f73c39bd72874ff4
+
+```
+
+```python
+# .venv/var/flaskr-instance/config.py
+SECRET_KEY = '8145c8d2a9bdfee450dfb6e3cdc2f65f6a119d7b85a64575f73c39bd72874ff4'
+```
+
+### Run with a Production Server
+
+`$ pip install waitress`
+
+```plain/text
+\$ waitress-serve --call "flaskr:create_app"
+INFO:waitress:Serving on http://0.0.0.0:8080
+```
