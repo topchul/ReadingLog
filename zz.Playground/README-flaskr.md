@@ -4,6 +4,13 @@
 
 ## [Project Layout](https://flask.palletsprojects.com/en/stable/tutorial/layout/)
 
+* `install`
+  ```bash
+  python -m venv [path]/{VirtualENV name}
+  activates
+  pip install flask
+  ```
+
 * `hello.py`
   * (Linux/macOS)
 
@@ -159,3 +166,50 @@ Werkzeug     3.1.3
 ```
 
 now can call from anywhere : `PS C:\> flask --app flaskr run`
+
+## [Test Coverage](https://flask.palletsprojects.com/en/stable/tutorial/tests/)
+
+`pytest` 와 `coverage` 설치
+
+```plain/text
+\$ pip install pytest coverage
+```
+
+* `tests/data.sql` default database
+* `tests/conftest.py` define fixtures (app, client, runner)
+
+* `tests/test_factory.py`
+  * `test_config()`
+  * `test_hello()`
+
+* `tests/db.py`
+  * `test_get_close_db(app)` recycle connection & closing
+  * `test_init_db_command(runner, monkeypatch)` initializing db command
+
+* `tests/conftest.py`
+  * `class AuthAuctions(object)` define (login, logout) action for fixture (auth)
+* `tests/test_auth.py` register, login, logout
+
+* `tests/test_blog.py` index, author_require, exists, create, update, delete
+
+* `pyproject.toml` test tool config
+
+  ```plain/text
+  \$ pytest
+  
+  ========================= test session starts ==========================
+  platform linux -- Python 3.6.4, pytest-3.5.0, py-1.5.3, pluggy-0.6.0
+  rootdir: /home/user/Projects/flask-tutorial
+  collected 23 item
+  
+  tests/test_auth.py ........                                      [ 34%]
+  tests/test_blog.py ............                                  [ 86%]
+  tests/test_db.py ..                                              [ 95%]
+  tests/test_factory.py ..                                         [100%]
+
+  ====================== 24 passed in 0.64 seconds =======================
+  ```
+
+`\$ coverage run -m pytest`
+`\$ coverage report`
+`\$ coverage html` generates files `htmlcov`
