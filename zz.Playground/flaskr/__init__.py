@@ -39,4 +39,11 @@ def create_app(test_config=None):
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
 
+    if app.debug:
+        print("DEBUG MODE: activate /debug to trigger manual debug")
+
+        @app.route('/debug')
+        def debug():
+            raise RuntimeError('Manual debug trigger')  # 강제로 예외를 발생시켜 디버그 콘솔 띄움
+
     return app
